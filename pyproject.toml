@@ -1,0 +1,7 @@
+[tool.taskipy.tasks]
+run = "uvicorn app.main:app --port 8000 --reload"
+test = "pytest -s -x --cov=app -vv"
+post_test = "coverage html"
+
+[tool.pytest.ini_options]
+pythonpath = "."
