@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.core.settings import settings
 
-@app.get('/')
-def read_root():
+app = FastAPI(title='Discountify Service - Code Challenge')
+
+@app.get('/', include_in_schema=False)
+def get_root():
     return {'message': 'Hello, World!'}
