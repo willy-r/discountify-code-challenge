@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from decimal import Decimal
 
 from app.models.coupons import Coupon, CouponUtilization
 
@@ -9,9 +8,9 @@ def test_create_coupon_on_database(test_session):
         coupon_code='HFKL4Y',
         expiration_date=datetime.utcnow() + timedelta(days=7),
         max_utilizations=500,
-        min_purchase_value=Decimal(100),
+        min_purchase_value=100,
         discount_type='percentage',
-        discount_amount=Decimal(5),
+        discount_amount=5,
         is_general_public=True,
         valid_first_purchase=False
     )
@@ -33,9 +32,9 @@ def test_create_coupon_utilization_on_database(test_session):
         coupon_code='HFKL4Y',
         expiration_date=datetime.utcnow() + timedelta(days=7),
         max_utilizations=500,
-        min_purchase_value=Decimal(100),
+        min_purchase_value=100,
         discount_type='percentage',
-        discount_amount=Decimal(5),
+        discount_amount=5,
         is_general_public=True,
         valid_first_purchase=False
     )
