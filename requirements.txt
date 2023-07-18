@@ -1,3 +1,4 @@
+alembic==1.11.1
 annotated-types==0.5.0
 anyio==3.7.1
 certifi==2023.5.7
@@ -5,15 +6,19 @@ click==8.1.5
 colorama==0.4.6
 coverage==7.2.7
 fastapi==0.100.0
+greenlet==2.0.2
 h11==0.14.0
 httpcore==0.17.3
 httptools==0.6.0
 httpx==0.24.1
 idna==3.4
 iniconfig==2.0.0
+Mako==1.2.4
+MarkupSafe==2.1.3
 packaging==23.1
 pluggy==1.2.0
 psutil==5.9.5
+psycopg2-binary==2.9.6
 pydantic==2.0.3
 pydantic-settings==2.0.2
 pydantic_core==2.3.0
@@ -22,6 +27,7 @@ pytest-cov==4.1.0
 python-dotenv==1.0.0
 PyYAML==6.0
 sniffio==1.3.0
+SQLAlchemy==2.0.19
 starlette==0.27.0
 taskipy==1.11.0
 tomli==2.0.1
