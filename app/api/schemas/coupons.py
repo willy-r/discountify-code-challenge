@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, UUID4, constr
 
 class DiscountType(str, Enum):
     PERCENTAGE = 'percentage'
-    FIXED_GENERAL = 'fixed_general'
+    FIXED_GENERAL_PUBLIC = 'fixed_general_public'
     FIXED_FIRST_PURCHASE = 'fixed_first_purchase'
 
 
@@ -31,6 +31,21 @@ class CouponCreateSchema(CouponBaseSchema):
 
 class CouponOutputSchema(CouponBaseSchema):
     id: UUID4
+
+    model_config = ConfigDict(
+        from_attributes=True
+    )
+
+
+class CouponConsumeSchema(BaseModel):
+    coupon_code: constr(min_length=6, max_length=6)
+    total_purchase_value: float
+    is_first_purchase: bool
+
+
+class CouponConsumeOutputSchema(BaseModel):
+    discount_value: float
+    coupon_code: str
 
     model_config = ConfigDict(
         from_attributes=True
