@@ -3,7 +3,6 @@ from uuid import UUID
 from datetime import datetime
 
 from sqlalchemy.orm import Session
-from loguru import logger
 
 from app.api.schemas.coupons import (
     CouponCreateSchema, CouponConsumeSchema,

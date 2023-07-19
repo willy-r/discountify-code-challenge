@@ -2,6 +2,26 @@ version: '3.9'
 name: discountify
 
 services:
+  api-fastapi:
+    build:
+      context: ../
+      dockerfile: ./docker/dockerfile.fastapi.dev
+    ports:
+      - 8000:8000
+    environment:
+      # App
+      - APP_ENV=development
+
+      # Database
+      - DATABASE_URL=postgresql://root:root123@db-postgresql:5432/development
+    volumes:
+      - ../.:/app
+    networks:
+      - app-network
+    depends_on:
+      db-postgresql:
+        condition: service_healthy
+
   db-postgresql:
     image: postgres:15.2-alpine
     healthcheck:
@@ -14,8 +34,8 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root123
       POSTGRES_DB: development
-    ports:
-      - 5432:5432
+    # ports:
+    #   - 5432:5432
     networks:
       - app-network
 

@@ -1,0 +1,7 @@
+.htmlcov/
+venv/
+.env
+.env.example
+.gitignore
+README.md
+pyproject.toml

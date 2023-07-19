@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from loguru import logger
 
 from app.database.session import get_session
 from app.exceptions.custom_exceptions import (

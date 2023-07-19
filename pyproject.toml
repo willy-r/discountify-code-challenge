@@ -1,5 +1,6 @@
 [tool.taskipy.tasks]
 run = "uvicorn app.main:app --port 8000 --reload"
+migrate = "alembic upgrade head"
 test = "pytest -s -x --cov=app -vv"
 post_test = "coverage html"
 
