@@ -62,6 +62,19 @@ Seguindo o que foi especificado para a construção do microserviço e após um 
 Nesse simples Diagrama ER, eu possuo todas as informações necessárias para o cupom de desconto na tabela **coupons** e crio um relacionamento de **1 para muitos** com a tabela **coupons_utilizations** tabela para salvar as utilizações de cada cupom junto com a data de utilização.
 
 
+## Visualizando os dados com DB Adminer
+
+**Adminer** é um gerenciador de banco de dados que oferece uma UI para a visualização dos dados com suporte para vários bancos de dados (até mesmo SQLite!), e eu utilizo ele nesse projeto para não precisar expor o banco de dados (para isso é só retirar os comentários do [`docker-compose.dev.yml`](./docker/docker-compose.dev.yml)).
+
+Para user ele é só acessar [`localhost:8080`](http://localhost:8080) e preencher os campos:
+
+- **Sistema**: PostgreSQL
+- **Servidor**: db-postgresql
+- **Usuário**: root
+- **Senha**: root123
+- **Base de dados**: development
+
+
 ## Documentação da API
 
 > Você poderá acessar uma documentação interativa do **Swagger** em [localhost:8000/docs](http://localhost:8000/docs) após executar a aplicação seguindo os passos em [**Rodando o projeto localmente**](#rodando-o-projeto-localmente)
