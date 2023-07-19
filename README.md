@@ -87,7 +87,7 @@ Nessa rota você deverá fornecer as informações necessárias para o cadastro 
 ```json
 {
   "coupon_code": "ABC123",
-  "expiration_date": "2023-07-19T15:00:00Z",
+  "expiration_date": "2023-07-19 15:00:00",
   "max_utilizations": 100,
   "min_purchase_value": 100,
   "discount_type": "percentage",

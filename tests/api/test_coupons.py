@@ -14,7 +14,7 @@ def test_create_coupon_should_return_201(test_client):
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-19T18:39:41.971Z',
+            'expiration_date': '2023-07-19 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'percentage',
@@ -31,7 +31,7 @@ def test_create_already_existing_coupon_should_return_409(test_client):
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-19T18:39:41.971Z',
+            'expiration_date': '2023-07-19 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'percentage',
@@ -46,7 +46,7 @@ def test_create_already_existing_coupon_should_return_409(test_client):
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-19T18:39:41.971Z',
+            'expiration_date': '2023-07-19 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'percentage',
@@ -63,7 +63,7 @@ def test_consume_valid_percentage_coupon_should_return_201(test_client):
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18T18:00:00Z',
+            'expiration_date': '2023-07-18 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'percentage',
@@ -93,7 +93,7 @@ def test_consume_valid_fixed_general_public_coupon_should_return_201(test_client
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18T18:00:00Z',
+            'expiration_date': '2023-07-18 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'fixed_general_public',
@@ -123,7 +123,7 @@ def test_consume_valid_fixed_first_purchase_coupon_should_return_201(test_client
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18T18:00:00Z',
+            'expiration_date': '2023-07-18 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'fixed_first_purchase',
@@ -153,7 +153,7 @@ def test_consume_valid_fixed_first_purchase_coupon_not_first_purchase_should_ret
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18T18:00:00Z',
+            'expiration_date': '2023-07-18 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'fixed_first_purchase',
@@ -195,7 +195,7 @@ def test_consume_max_utilizations_exceeded_coupon_should_return_400(test_client,
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18T18:00:00Z',
+            'expiration_date': '2023-07-18 18:00:00',
             'max_utilizations': 1,
             'min_purchase_value': 100,
             'discount_type': 'percentage',
@@ -234,7 +234,7 @@ def test_consume_expired_coupon_should_return_400(test_client):
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18T18:00:00Z',
+            'expiration_date': '2023-07-18 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'percentage',
@@ -264,7 +264,7 @@ def test_consume_max_utilizations_exceeded_coupon_should_return_400(test_client,
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18T18:00:00Z',
+            'expiration_date': '2023-07-18 18:00:00',
             'max_utilizations': 1,
             'min_purchase_value': 100,
             'discount_type': 'percentage',
@@ -302,7 +302,7 @@ def test_consume_min_purchase_value_coupon_should_return_400(test_client, test_s
         ENDPOINT,
         json={
             'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18T18:00:00Z',
+            'expiration_date': '2023-07-18 18:00:00',
             'max_utilizations': 100,
             'min_purchase_value': 100,
             'discount_type': 'percentage',
