@@ -10,8 +10,8 @@ from app.api.schemas.coupons import (
 )
 from app.exceptions.custom_exceptions import (
     CouponAlreadyExistsException, CouponNotFoundException,
-    CouponExpiredException, CouponMaxUtilizationException,
-    CouponMinPurchaseValueException, CouponOnlyFirstPurchaseException
+    CouponExpiredException, CouponMaxUtilizationsExceededException,
+    CouponMinPurchaseValueExceededException, CouponFirstPurchaseException
 )
 from app.models.coupons import Coupon, CouponUtilization
 
@@ -28,6 +28,7 @@ def create_coupon(session: Session, create_coupon_schema: CouponCreateSchema) ->
     session.add(new_coupon)
     session.commit()
     session.refresh(new_coupon)
+
     return new_coupon
 
 
@@ -39,18 +40,18 @@ def consume_coupon(session: Session, coupon_consume_schema: CouponConsumeSchema)
             f'Coupon {coupon_consume_schema.coupon_code} was not found'
         )
 
-    if not check_expiration_date(db_coupon.expiration_date):
+    if not is_coupon_expired(db_coupon.expiration_date):
         raise CouponExpiredException(
-            f'Coupon {db_coupon.coupon_code} expired since {db_coupon.expiration_date}'
+            f'Coupon {db_coupon.coupon_code} was expired on {db_coupon.expiration_date}'
         )
     
-    if not check_utilizations(session, db_coupon.id, db_coupon.max_utilizations):
-        raise CouponMaxUtilizationException(
+    if not is_max_utilizations_exceeded(session, db_coupon.id, db_coupon.max_utilizations):
+        raise CouponMaxUtilizationsExceededException(
             f'Coupon {db_coupon.coupon_code} max utilizations of {db_coupon.max_utilizations} exceeded'
         )
     
-    if not check_min_purchase_value(db_coupon.min_purchase_value, coupon_consume_schema.total_purchase_value):
-        raise CouponMinPurchaseValueException(
+    if not is_min_purchase_value_exceeded(db_coupon.min_purchase_value, coupon_consume_schema.total_purchase_value):
+        raise CouponMinPurchaseValueExceededException(
             f'Coupon {db_coupon.coupon_code} accepts only purchase less than {db_coupon.min_purchase_value}'
         )
     
@@ -66,24 +67,24 @@ def consume_coupon(session: Session, coupon_consume_schema: CouponConsumeSchema)
     session.add(new_coupon_utilization)
     session.commit()
     session.refresh(new_coupon_utilization)
-    
+
     return {
         'discount_value': discount_value,
         'coupon_code': db_coupon.coupon_code,
     }
 
 
-def check_expiration_date(expiration_date: datetime) -> bool:
+def is_coupon_expired(expiration_date: datetime) -> bool:
     utilization_date = datetime.utcnow()
     return utilization_date < expiration_date
 
 
-def check_utilizations(session: Session, coupon_id: UUID, max_utilizations: int) -> bool:
+def is_max_utilizations_exceeded(session: Session, coupon_id: UUID, max_utilizations: int) -> bool:
     coupons_utilizations = session.query(CouponUtilization).filter_by(coupon_id=coupon_id).count()
     return coupons_utilizations < max_utilizations
 
 
-def check_min_purchase_value(min_purchase_value: float, total_purchase_value: float) -> bool:
+def is_min_purchase_value_exceeded(min_purchase_value: float, total_purchase_value: float) -> bool:
     return total_purchase_value < min_purchase_value
 
 
@@ -99,7 +100,7 @@ def apply_discount(
         return total_purchase_value - discount_amount
     elif discount_type == DiscountType.FIXED_FIRST_PURCHASE:
         if not is_first_purchase:
-            raise CouponOnlyFirstPurchaseException(
-                f'Discount type [{discount_type}] only accepted on first purchase'
+            raise CouponFirstPurchaseException(
+                f'Discount type [{discount_type}] is only for first purchase'
             )
         return total_purchase_value - discount_amount

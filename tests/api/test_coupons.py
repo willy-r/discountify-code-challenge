@@ -175,7 +175,7 @@ def test_consume_valid_fixed_first_purchase_coupon_not_first_purchase_should_ret
         )
     
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert re.search(r'only accepted on first purchase', response.json()['detail']) is not None
+    assert re.search(r'is only for first purchase', response.json()['detail']) is not None
 
 
 def test_consume_non_existing_coupon_should_return_404(test_client):
@@ -256,7 +256,7 @@ def test_consume_expired_coupon_should_return_400(test_client):
         )
     
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert re.search(r'ABCOI1 expired', response.json()['detail']) is not None
+    assert re.search(r'ABCOI1 was expired', response.json()['detail']) is not None
 
 
 def test_consume_max_utilizations_exceeded_coupon_should_return_400(test_client, test_session):

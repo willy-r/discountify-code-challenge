@@ -78,7 +78,6 @@ Para essa REST API, temos dois importantes endpoints:
 Nessa rota você deverá fornecer as informações necessárias para o cadastro de um cupom de desconto seguindo as seguintes regras:
 
 - Não poderá haver código de cupom de desconto repetido, ele deve ser único. Se isso ocorrer, um erro **409 Conflict** será retornado.
-- A data de expiração do cupom não pode estar no passado e deve estar no formato UTC. Se isso ocorrer, um erro **400 Bad Request** será retornado.
 - Existem 3 tipos de desconto: `percentage`, `fixed_general_public` e `fixed_first_purchase`. Se um inválido for passado, um erro **422 Unprocessable Entity** será retornado.
     - O tipo `percentage` significa percentual de desconto aplicado ao valor total.
     - O tipo `fixed_general_public` significa valor fixo do desconto para o público geral.
@@ -136,7 +135,7 @@ Nessa rota você deverá fornecer as informações necessárias para o consumo d
 }
 ```
 
-**Exemplo de resposta JSON parao cupom `ABC123`**
+**Exemplo de resposta JSON para o cupom `ABC123`**
 ```json
 {
   "discount_value": 62.99999999999999,

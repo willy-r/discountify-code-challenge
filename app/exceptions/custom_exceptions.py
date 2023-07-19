@@ -13,12 +13,12 @@ class CouponExpiredException(CouponRulesException):
     pass
 
 
-class CouponMaxUtilizationException(CouponRulesException):
+class CouponMaxUtilizationsExceededException(CouponRulesException):
     pass
 
-class CouponMinPurchaseValueException(CouponRulesException):
+class CouponMinPurchaseValueExceededException(CouponRulesException):
     pass
 
 
-class CouponOnlyFirstPurchaseException(CouponRulesException):
+class CouponFirstPurchaseException(CouponRulesException):
     pass
