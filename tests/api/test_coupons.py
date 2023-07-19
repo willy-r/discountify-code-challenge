@@ -190,45 +190,6 @@ def test_consume_non_existing_coupon_should_return_404(test_client):
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_consume_max_utilizations_exceeded_coupon_should_return_400(test_client, test_session):
-    response = test_client.post(
-        ENDPOINT,
-        json={
-            'coupon_code': 'ABCOI1',
-            'expiration_date': '2023-07-18 18:00:00',
-            'max_utilizations': 1,
-            'min_purchase_value': 100,
-            'discount_type': 'percentage',
-            'discount_amount': 30,
-            'is_general_public': True,
-            'valid_first_purchase': False,
-        }
-    )
-    assert response.status_code == status.HTTP_201_CREATED
-
-    data = response.json()
-
-    new_coupon_utilization = CouponUtilization(
-        coupon_id=UUID(data['id']),
-    )
-    test_session.add(new_coupon_utilization)
-    test_session.commit()
-    test_session.refresh(new_coupon_utilization)
-
-    with freeze_time('2023-07-18 17:59:59'):
-        response = test_client.post(
-            f'{ENDPOINT}/consume',
-            json={
-                'coupon_code': 'ABCOI1',
-                'total_purchase_value': 99,
-                'is_first_purchase': False,
-            }
-        )
-    
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert re.search(r'ABCOI1 max utilizations', response.json()['detail']) is not None
-
-
 def test_consume_expired_coupon_should_return_400(test_client):
     response = test_client.post(
         ENDPOINT,

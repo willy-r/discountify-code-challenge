@@ -1,5 +1,7 @@
 FROM python:3.11-slim
 
+ENV TZ=America/Fortaleza
+
 WORKDIR /app
 
 COPY requirements.txt .

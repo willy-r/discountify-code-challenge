@@ -34,7 +34,7 @@ Requisitos para rodar o projeto:
 
 2. Como a aplicação utiliza o **Alembic** para o gerenciamento de migrações do banco de dados, também será necessário executar o script [**migrate.sh**](./scripts/migrate.sh) para a criação das tabelas necessárias para o funcionamento adequado da aplicação.
     ```bash
-    sh ./scripts/run.sh
+    sh ./scripts/migrate.sh
     ```
 
 3. Após isso, a aplicação estará pronta para uso em [localhost:8000/docs](http://localhost:8000/docs)
@@ -87,7 +87,7 @@ Nessa rota você deverá fornecer as informações necessárias para o cadastro 
 ```json
 {
   "coupon_code": "ABC123",
-  "expiration_date": "2023-07-19 15:00:00",
+  "expiration_date": "2023-07-19 15:00:00", // Use o horário padrão de Brasília.
   "max_utilizations": 100,
   "min_purchase_value": 100,
   "discount_type": "percentage",

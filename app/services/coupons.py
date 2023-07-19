@@ -40,17 +40,17 @@ def consume_coupon(session: Session, coupon_consume_schema: CouponConsumeSchema)
             f'Coupon {coupon_consume_schema.coupon_code} was not found'
         )
 
-    if not is_coupon_expired(db_coupon.expiration_date):
+    if not check_coupon_expired(db_coupon.expiration_date):
         raise CouponExpiredException(
             f'Coupon {db_coupon.coupon_code} was expired on {db_coupon.expiration_date}'
         )
     
-    if not is_max_utilizations_exceeded(session, db_coupon.id, db_coupon.max_utilizations):
+    if not check_max_utilizations_exceeded(session, db_coupon.id, db_coupon.max_utilizations):
         raise CouponMaxUtilizationsExceededException(
             f'Coupon {db_coupon.coupon_code} max utilizations of {db_coupon.max_utilizations} exceeded'
         )
     
-    if not is_min_purchase_value_exceeded(db_coupon.min_purchase_value, coupon_consume_schema.total_purchase_value):
+    if not check_min_purchase_value_exceeded(db_coupon.min_purchase_value, coupon_consume_schema.total_purchase_value):
         raise CouponMinPurchaseValueExceededException(
             f'Coupon {db_coupon.coupon_code} accepts only purchase less than {db_coupon.min_purchase_value}'
         )
@@ -74,17 +74,17 @@ def consume_coupon(session: Session, coupon_consume_schema: CouponConsumeSchema)
     }
 
 
-def is_coupon_expired(expiration_date: datetime) -> bool:
-    utilization_date = datetime.utcnow()
+def check_coupon_expired(expiration_date: datetime) -> bool:
+    utilization_date = datetime.now().replace(microsecond=0)
     return utilization_date < expiration_date
 
 
-def is_max_utilizations_exceeded(session: Session, coupon_id: UUID, max_utilizations: int) -> bool:
+def check_max_utilizations_exceeded(session: Session, coupon_id: UUID, max_utilizations: int) -> bool:
     coupons_utilizations = session.query(CouponUtilization).filter_by(coupon_id=coupon_id).count()
     return coupons_utilizations < max_utilizations
 
 
-def is_min_purchase_value_exceeded(min_purchase_value: float, total_purchase_value: float) -> bool:
+def check_min_purchase_value_exceeded(min_purchase_value: float, total_purchase_value: float) -> bool:
     return total_purchase_value < min_purchase_value
 
 
