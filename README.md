@@ -1,4 +1,4 @@
-# Discountify - Spotlar Code Challenge 
+# Discountify - Code Challenge 
 
 Olá, boas vindas ao serviço **Discountify**, um microserviço de cupons de desconto.
 
